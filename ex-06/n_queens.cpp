@@ -326,8 +326,6 @@ void test(int board[8][8])
 
     if (test_valid)
     {
-    	count++;
-    	std::cout << count << std::endl;
         show_board(board);
     }
 }
