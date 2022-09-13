@@ -16,6 +16,8 @@ void mean_list(Node *list);
 void add_initial_element(Node *&list);
 void add_final_element(Node *&list);
 void delete_element(Node *&list);
+void delete_first_element(Node *&list);
+void delete_last_element(Node *&list);
 
 int main()
 {
@@ -27,8 +29,10 @@ int main()
 	std::cin >> value;
 
 	insertNode(header, value);
-	show_list(header);
-	delete_element(header);
+	// show_list(header);
+	// delete_element(header);
+	// delete_first_element(header);
+	delete_last_element(header);
 	show_list(header);
 
 	// std::cout << "Ingrese la opcion que necesite" << std::endl;
@@ -201,20 +205,42 @@ void delete_element(Node *&list)
 	std::cout << "Ingrese el valor que quiere eliminar: " << std::endl;
 	std::cin >> value_to_delete;
 
-	while (list != NULL)
-	{
-		if (list->next->value == value_to_delete)
-		{
-			list->next = list->next->next;
-			break;
-		};
-
-		list = list->next;
-	}
-
 	if (head->value == value_to_delete)
 	{
 		head = head->next;
+	}
+	else
+	{
+		while (list != NULL)
+		{
+			if (list->next->value == value_to_delete)
+			{
+				list->next = list->next->next;
+				break;
+			};
+
+			list = list->next;
+		}
+	};
+
+	list = head;
+}
+
+void delete_first_element(Node *&list)
+{
+	list = list->next;
+};
+
+void delete_last_element(Node *&list)
+{
+	Node *head = list;
+	while (list != NULL)
+	{
+		if (list->next->next == NULL)
+		{
+			list->next = NULL;
+		}
+		list = list->next;
 	}
 
 	list = head;
