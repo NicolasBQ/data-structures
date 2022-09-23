@@ -19,6 +19,7 @@ void delete_element(Node *&list);
 void delete_first_element(Node *&list);
 void delete_last_element(Node *&list);
 void bubble_sort(Node *&list);
+void quick_sort(Node *&list);
 
 int main()
 {
@@ -34,7 +35,9 @@ int main()
     // delete_element(header);
     // delete_first_element(header);
     // delete_last_element(header);
-    bubble_sort(header);
+    //bubble_sort(header);
+    //show_list(header);
+    quick_sort(header);
     show_list(header);
 
     // std::cout << "Ingrese la opcion que necesite" << std::endl;
@@ -275,4 +278,53 @@ void bubble_sort(Node *&list)
     }
 
     list = p;
+};
+
+void quick_sort(Node* &list)
+{
+    Node *pivot = list;
+    Node *right_list = NULL;
+    Node *left_list = NULL;
+    Node *aux_right;
+    Node *aux_left;
+
+        
+    while(list != NULL) {
+    	if(pivot == list) {
+    		
+		} else {
+			if(pivot->value > list->value) {
+				aux_left = new Node();
+				aux_left->value = list->value;
+				aux_left->next = left_list;
+				left_list = aux_left;
+			}else {
+				aux_right = new Node();
+				aux_right->value = list->value;
+				aux_right->next = right_list;
+				right_list = aux_right;
+			} 	
+		}
+		
+		
+		list = list->next;
+	}
+	
+	Node *last_left_list;
+	Node *head_left = left_list;
+	
+	while(left_list != NULL) {
+		if(left_list->next == NULL) {
+			last_left_list = left_list;
+		}
+		
+		left_list = left_list->next;
+	};
+	
+	left_list = head_left;
+	
+	list = left_list;
+	last_left_list->next = pivot;	
+	pivot->next = right_list;
+
 }
