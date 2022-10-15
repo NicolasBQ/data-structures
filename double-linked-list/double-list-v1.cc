@@ -24,9 +24,9 @@ void delete_last_element(Node * &last);
 // 7. Ingresar elementos en orden
 void insert_in_order(Node* &first, Node* &last);
 // 8. Ordernar los elementos de la lista por el metodo Bubble Sort
-void bubble_sort();
+void bubble_sort(Node * &first);
 // 9. Ordenar los elementos de la lista por el método Quick Sort
-void quick_sort();
+Node* quick_sort(Node* list);
 // 10. Eliminar lista
 void delete_list(Node* &first, Node* &last);
 
@@ -75,10 +75,11 @@ int main() {
 			insert_in_order(first, last);
 			break;
 		case 8:
-			bubble_sort();
+			bubble_sort(first);
 			break;
 		case 9:
-			quick_sort();
+			quick_sort(first);
+			main();
 			break;
 		case 10:
 			delete_list(first, last);
@@ -134,7 +135,7 @@ void show_a(Node* &first) {
 		std::cout << "La lista esta vacia" << std::endl;
 	}
 
-	// main();
+	main();
 };
 
 // 3. Mostrar elementos de forma descendente
@@ -262,13 +263,104 @@ void insert_in_order(Node* &first, Node* &last) {
 };
 
 // 8. Ordernar los elementos de la lista por el metodo Bubble Sort
-void bubble_sort() {
-	std::cout << "Bubble sort" << std::endl;
+void bubble_sort(Node* &first) {
+	Node* current_node = first;
+	Node* next_node = current_node->next;
+	Node* end_pointer = NULL;
+	int point_value;
+
+	while(current_node->next != end_pointer) {
+		while(current_node->next != end_pointer) {
+			if(next_node->value < current_node->value) {
+				point_value = next_node->value;
+				next_node->value = current_node->value;
+				current_node->value = point_value;
+			}
+
+			current_node = current_node->next;
+			next_node = current_node->next;
+		}
+
+		end_pointer = current_node;
+		current_node = first;
+		next_node = current_node->next;
+	}
+
+	first = current_node;
+
+	main();
 };
 
 // 9. Ordenar los elementos de la lista por el método Quick Sort
-void quick_sort() {
-	std::cout << "Quick Sort" << std::endl;
+Node* quick_sort(Node* list) {
+	   if(list == NULL || list->next == NULL) {
+        return list;
+    } 
+
+    Node *pivot = list;
+    Node *right_list = NULL;
+    Node *left_list = NULL;
+    Node *aux_right;
+    Node *aux_left;
+
+
+    while(list != NULL) {
+
+        if(pivot->value > list->value) {
+            aux_left = new Node();
+            aux_left->value = list->value;
+            aux_left->next = left_list;
+            left_list = aux_left;
+        }else if(pivot->value < list->value) {
+            aux_right = new Node();
+            aux_right->value = list->value;
+            aux_right->next = right_list;
+            right_list = aux_right;
+        } 	
+        
+        list = list->next;
+    }
+
+    left_list = quick_sort(left_list);
+    right_list = quick_sort(right_list);
+	
+	
+	Node *last_left_list;
+	Node *head_left = left_list;
+	Node *head_right = right_list;
+	
+	while(left_list != NULL) {
+		if(left_list->next == NULL) {
+			last_left_list = left_list;
+		}
+		
+		left_list = left_list->next;
+	};
+
+	while(right_list != NULL) {
+		if(right_list->next == NULL) {
+			last = right_list;
+		}
+			
+		right_list = right_list->next;
+	};
+	
+	left_list = head_left;
+	right_list = head_right;
+	
+	first = left_list;
+	last_left_list->next = pivot;	
+	pivot->next = right_list;
+
+
+	while(first->next != NULL) {
+		first->next->prev = first;
+		first = first->next;
+	}
+
+	first = left_list;
+
+    return first;
 };
 
 // 10. Eliminar lista
